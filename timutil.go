@@ -66,7 +66,8 @@ func gpsTime(t time.Time) time.Time {
 }
 
 func utcTime(t time.Time) time.Time {
-  return t.Add(delta+leap(t)).UTC()
+  t = t.Add(delta).UTC()
+  return t.Add(leap(t))
 }
 
 func leap(t time.Time) time.Duration {
