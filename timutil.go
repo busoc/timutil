@@ -2,6 +2,7 @@ package timutil
 
 import (
   "time"
+  "sort"
 )
 
 var dates = []time.Time {
@@ -32,6 +33,12 @@ var (
   GPS  = time.Date(1980, 1, 6, 0, 0, 0, 0, time.UTC)
   delta = GPS.Sub(UNIX)
 )
+
+func init() {
+  sort.Slice(dates, func(i, j int) bool {
+    return dates[i].Before(dates[j])
+  })
+}
 
 func Split5(t time.Time) (uint32, uint8) {
 	s, n := float64(t.Unix()), float64(t.UnixNano())/1000000.0
@@ -71,11 +78,8 @@ func utcTime(t time.Time) time.Time {
 }
 
 func leap(t time.Time) time.Duration {
-  var d time.Duration
-  for i := 0; i < len(dates) && t.Before(dates[i]); i++ {
-    if t.After(dates[i]) {
-      d += time.Second
-    }
-  }
-  return d
+  i := sort.Search(len(dates), func(i int) bool {
+    return t.Before(dates[i]) || t.Equal(dates[i])
+  })
+  return time.Duration(i+1) * time.Second
 }
