@@ -69,17 +69,17 @@ func Join6(coarse uint32, fine uint8) time.Time {
 }
 
 func gpsTime(t time.Time) time.Time {
-  return t.UTC().Add(-delta-leap(t))
+  return t.UTC().Add(-delta+leap(t))
 }
 
 func utcTime(t time.Time) time.Time {
-  t = t.Add(delta).UTC()
-  return t.Add(leap(t))
+  return t.Add(delta).UTC()
+  // return t.Add(-leap(t))
 }
 
 func leap(t time.Time) time.Duration {
   i := sort.Search(len(dates), func(i int) bool {
     return t.Before(dates[i]) || t.Equal(dates[i])
   })
-  return time.Duration(i+1) * time.Second
+  return time.Duration(i) * time.Second
 }
