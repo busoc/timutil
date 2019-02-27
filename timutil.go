@@ -40,6 +40,13 @@ func init() {
   })
 }
 
+func GPSTime(t time.Time, epoch bool) time.Time {
+  if epoch {
+    t = t.Add(-delta)
+  }
+  return t.Add(leap(t))
+}
+
 func Split5(t time.Time) (uint32, uint8) {
 	s, n := float64(t.Unix()), float64(t.UnixNano())/1000000.0
 	m := (n - (s * 1000)) / 1000 * 255
