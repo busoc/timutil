@@ -67,7 +67,7 @@ func Join5(coarse uint32, fine uint8) time.Time {
 	return utcTime(t.Add(ms))
 }
 
-func Join6(coarse uint32, fine uint8) time.Time {
+func Join6(coarse uint32, fine uint16) time.Time {
 	t := time.Unix(int64(coarse), 0).UTC()
 
 	fs := float64(fine) / 65536.0 * 1000.0
