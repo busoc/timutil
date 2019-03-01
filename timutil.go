@@ -54,10 +54,10 @@ func Split5(t time.Time) (uint32, uint8) {
 	return uint32(s), uint8(m)
 }
 
-func Split6(t time.Time) (uint32, uint8) {
+func Split6(t time.Time) (uint32, uint16) {
   s := uint32(t.Unix())
   m := float64(t.UnixNano())/1000000.0
-  
+
   return s, uint16(m)
 }
 
