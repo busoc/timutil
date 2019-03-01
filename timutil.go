@@ -55,7 +55,10 @@ func Split5(t time.Time) (uint32, uint8) {
 }
 
 func Split6(t time.Time) (uint32, uint8) {
-  return 0, 0
+  s := uint32(t.Unix())
+  m := float64(t.UnixNano())/1000000.0
+  
+  return s, uint16(m)
 }
 
 func Join5(coarse uint32, fine uint8) time.Time {
